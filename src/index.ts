@@ -1,10 +1,12 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express } from 'express';
+import cors from 'cors';
 import app from './config/app';
+import routers from './routers';
 
 const server: Express = express();
 
-server.get('/', (req: Request, res: Response) => {
-    res.status(200).json({ message: 'ok' });
-});
+server.use(express.json());
+server.use(cors());
+server.use('/api', routers);
 
 server.listen(app.port, () => console.log(`Server listen on port ${app.port}`));
