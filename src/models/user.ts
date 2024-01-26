@@ -31,6 +31,9 @@ const UserSchema: Schema = new Schema<UserAccount>({
         type: String,
         required: true
     }
+}, {
+    timestamps: true,
+    versionKey: false
 });
 
 const User = mongoose.model<UserType | UserAccount>('User', UserSchema);
