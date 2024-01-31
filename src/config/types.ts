@@ -13,6 +13,23 @@ export type UserAccount = UserType & {
     password: string;
 }
 
+export interface PatientType {
+    nik: string;
+    name: string;
+    birthPlace: string;
+    birthDate: string;
+    sex: string;
+    blood: string | null;
+    address: string;
+    religion: string;
+    married: string;
+    job: string | null;
+    citizenship: string;
+    phone: string;
+    bpjs: string | null;
+    parent: string;
+}
+
 export const Division: string[] = [
     'administrator',
     'receptionist',

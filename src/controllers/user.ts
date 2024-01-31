@@ -14,13 +14,9 @@ const UserController = (() => {
                 return Respons(res, { statusCode: 400, message: 'Validation Error', data: { error: validationError.array()[0].msg } });
             }
 
-            const { id } = req.params;
-            const { password } = req.body;
-            if (!Types.ObjectId.isValid(id)) {
-                return Respons(res, {statusCode: 400, message: 'User ID invalid'});
-            }
+            const { uid, password } = req.body;
 
-            const data: Document | null = await User.findById(id);
+            const data: Document | null = await User.findOne({uid: uid});
             if (!data) {
                 return Respons(res, {statusCode: 404, message: 'User not found'});
             }

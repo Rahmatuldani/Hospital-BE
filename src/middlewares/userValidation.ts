@@ -3,6 +3,7 @@ import { Division, Polyclinic } from '../config/types';
 
 const UserMiddlewares = (()=>{
     const login = [
+        check('uid').exists().withMessage('UID is required'),
         check('password').exists().withMessage('Password is required')
     ];
 
