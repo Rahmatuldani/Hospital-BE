@@ -39,9 +39,31 @@ const UserController = (() => {
 
     async function getAllUser(req: Request, res: Response) {
         try {
-            const users: UserType[] = await User.find().select('-password').sort('uid');
+            const { search } = req.query;
+            const limit: number = parseInt(req.query.limit as string) || 10;
+            const page: number = parseInt(req.query.page as string) || 1;
+            const skip: number = (page - 1) * limit;
 
-            return Respons(res, { statusCode: 200, message: 'Get all user success', data: { users } });
+            const valueRegex = new RegExp(search as string, 'i');
+
+            // Construct the query dynamically for search
+            const query: { [key: string]: unknown } = {
+                $or: [
+                    { nik: valueRegex },
+                    { name: valueRegex },
+                    { bpjs: valueRegex }
+                ]
+            };
+
+            const users: UserType[] = await User.find(query)
+                .skip(skip)
+                .limit(limit)
+                .select('-password')
+                .sort('email');
+            const allData = await User.find(query).countDocuments();
+            const pageCount = Math.ceil(allData/limit);
+
+            return Respons(res, { statusCode: 200, message: 'Get all user success', data: { users, pageCount } });
         } catch (error) {
             return Respons(res, {statusCode: 500, message: 'Error get all user', data: { error }});
         }
@@ -55,11 +77,11 @@ const UserController = (() => {
             }
 
             const data: UserAccount = req.body;
-            data.password = Hash.encrypt(data.uid);
+            data.password = Hash.encrypt(data.name.trim().toLowerCase());
 
-            const existUser = await User.findOne({uid: data.uid});
+            const existUser = await User.findOne({email: data.email});
             if (existUser) {
-                return Respons(res, { statusCode: 400, message: 'UID is already exist' });
+                return Respons(res, { statusCode: 400, message: 'Email is already exist' });
             }
 
             await User.create(data);
@@ -92,6 +114,10 @@ const UserController = (() => {
     async function deleteUser(req: Request, res: Response) {
         try {
             const { id } = req.params;
+
+            if (!Types.ObjectId.isValid(id)) {
+                return Respons(res, {statusCode: 400, message: 'ID is invalid' });
+            }
             
             const user = await User.findById(id);
             if (!user) {

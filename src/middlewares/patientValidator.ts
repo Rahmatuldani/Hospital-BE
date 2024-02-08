@@ -1,5 +1,6 @@
-import { check } from 'express-validator';
+import { check, param } from 'express-validator';
 import Patient from '../models/patient';
+import { Types } from 'mongoose';
 
 const PatientMiddlewares = (() => {
     const createPatient = [
@@ -14,8 +15,6 @@ const PatientMiddlewares = (() => {
         check('name').exists().withMessage('Name is required'),
         check('birthPlace').exists().withMessage('Birth Place is required'),
         check('birthDate').exists().withMessage('Birth Date is required'),
-        // check('birtDate').isDate().withMessage('Birth Date must be a date'),
-
         check('sex').exists().withMessage('Sex is required'),
         check('address').exists().withMessage('Address is required'),
         check('religion').exists().withMessage('Religion is required'),
@@ -25,8 +24,17 @@ const PatientMiddlewares = (() => {
         check('parent').exists().withMessage('Parent is required'),
     ];
 
+    const updatePatient = [
+        param('id').custom(async (value) => {
+            if (!Types.ObjectId.isValid(value)) {
+                throw new Error('ID is invalid');
+            }
+        }),
+    ];
+
     return {
-        createPatient
+        createPatient,
+        updatePatient
     };
 })();
 

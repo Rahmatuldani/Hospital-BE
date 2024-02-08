@@ -2,16 +2,16 @@ import mongoose, { Schema } from 'mongoose';
 import { UserAccount, UserType } from '../config/types';
 
 const UserSchema: Schema = new Schema<UserAccount>({
-    uid: {
-        type: String,
-        required: true,
-        unique: true
-    },
     name: {
         type: String,
         required: true
     },
-    division: {
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    role: {
         type: String,
         required: true
     },
@@ -19,12 +19,10 @@ const UserSchema: Schema = new Schema<UserAccount>({
         type: String
     },
     phone: {
-        type: String
+        type: String,
+        required: true
     },
     photo: {
-        type: String
-    },
-    email: {
         type: String
     },
     password: {

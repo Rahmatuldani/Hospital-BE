@@ -1,12 +1,11 @@
 export type UserType = {
     _id: string;
-    uid: string;
     name: string;
-    division: string;
+    email: string;
+    role: string;
     polyclinic?: string;
     phone: string;
     photo?: string;
-    email?: string;
 }
 
 export type UserAccount = UserType & {
@@ -30,13 +29,13 @@ export interface PatientType {
     parent: string;
 }
 
-export const Division: string[] = [
-    'administrator',
-    'receptionist',
-    'doctor',
-    'pharmacist',
-    'logistic',
-    'cashier'
+export const Role: string[] = [
+    'Administrator',
+    'Receptionist',
+    'Doctor',
+    'Pharmacist',
+    'Logistic',
+    'Cashier'
 ];
 
 export const Polyclinic: string[] = [

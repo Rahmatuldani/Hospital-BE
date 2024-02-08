@@ -1,5 +1,5 @@
 import { check } from 'express-validator';
-import { Division, Polyclinic } from '../config/types';
+import { Polyclinic, Role } from '../config/types';
 
 const UserMiddlewares = (()=>{
     const login = [
@@ -8,14 +8,14 @@ const UserMiddlewares = (()=>{
     ];
 
     const userCreate = [
-        check('uid').exists().withMessage('UID is required'),
+        check('email').exists().withMessage('Email is required'),
         check('name').exists().withMessage('Name is required'),
-        check('division').exists().withMessage('Division is required'),
+        check('role').exists().withMessage('Role is required'),
         check('phone').exists().withMessage('Phone number is required'),
 
-        check('division').custom((value) => {
-            if (!Division.includes(value)) {
-                throw new Error('Division is unknown');
+        check('role').custom((value) => {
+            if (!Role.includes(value)) {
+                throw new Error('Role is unknown');
             }
             return true;
         }),
