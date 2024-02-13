@@ -19,7 +19,7 @@ const PatientSchema: Schema = new Schema<PatientType & Document>({
         type: String,
         required: true
     },
-    sex: {
+    gender: {
         type: String,
         required: true
     },

@@ -15,12 +15,15 @@ const PatientMiddlewares = (() => {
         check('name').exists().withMessage('Name is required'),
         check('birthPlace').exists().withMessage('Birth Place is required'),
         check('birthDate').exists().withMessage('Birth Date is required'),
-        check('sex').exists().withMessage('Sex is required'),
+        check('gender').exists().withMessage('Gender is required'),
+        check('blood').exists().withMessage('Blood is required'),
         check('address').exists().withMessage('Address is required'),
         check('religion').exists().withMessage('Religion is required'),
         check('married').exists().withMessage('Married status is required'),
+        check('job').exists().withMessage('Job is required'),
         check('citizenship').exists().withMessage('Citizenship is required'),
         check('phone').exists().withMessage('Phone is required'),
+        check('bpjs').exists().withMessage('BPJS is required'),
         check('parent').exists().withMessage('Parent is required'),
     ];
 

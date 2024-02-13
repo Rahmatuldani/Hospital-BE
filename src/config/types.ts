@@ -17,7 +17,7 @@ export interface PatientType {
     name: string;
     birthPlace: string;
     birthDate: string;
-    sex: string;
+    gender: string;
     blood: string | null;
     address: string;
     religion: string;
