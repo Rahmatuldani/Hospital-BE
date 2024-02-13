@@ -3,7 +3,7 @@ export type UserType = {
     name: string;
     email: string;
     role: string;
-    polyclinic?: string;
+    polyclinic?: string | null;
     phone: string;
     photo?: string;
 }

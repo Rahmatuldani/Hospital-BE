@@ -16,7 +16,8 @@ const UserSchema: Schema = new Schema<UserAccount>({
         required: true
     },
     polyclinic: {
-        type: String
+        type: String,
+        default: null,
     },
     phone: {
         type: String,

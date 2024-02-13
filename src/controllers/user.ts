@@ -49,9 +49,10 @@ const UserController = (() => {
             // Construct the query dynamically for search
             const query: { [key: string]: unknown } = {
                 $or: [
-                    { nik: valueRegex },
+                    { email: valueRegex },
                     { name: valueRegex },
-                    { bpjs: valueRegex }
+                    { role: valueRegex },
+                    { polyclinic: valueRegex }
                 ]
             };
 
@@ -99,8 +100,11 @@ const UserController = (() => {
                 return Respons(res, {statusCode: 400, message: 'User ID invalid'});
             }
             const data: UserType = req.body;
+            if (data.polyclinic === '') {
+                data.polyclinic = null;
+            }
 
-            const user = await User.findOneAndUpdate({ _id: id }, { $set: data }, { new: true }).select('-password');
+            const user = await User.findByIdAndUpdate(id, { $set: data }, { new: true }).select('-password');
             if (!user) {
                 return Respons(res, {statusCode: 404, message: 'User not found'});
             }
