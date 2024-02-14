@@ -1,9 +1,10 @@
-import { check } from 'express-validator';
+import { check, param } from 'express-validator';
 import { Polyclinic, Role } from '../config/types';
+import { Types } from 'mongoose';
 
 const UserMiddlewares = (()=>{
     const login = [
-        check('uid').exists().withMessage('UID is required'),
+        check('email').exists().withMessage('Email is required'),
         check('password').exists().withMessage('Password is required')
     ];
 
@@ -21,16 +22,25 @@ const UserMiddlewares = (()=>{
         }),
         
         check('polyclinic').optional().custom((value) => {
-            if (!Polyclinic.includes(value)) {
+            if (!Polyclinic.includes(value) && !value === null) {
                 throw new Error('Polyclinic is unknown');
             }
             return true;
         })
     ];
 
+    const updateUser = [
+        param('id').custom(async (value) => {
+            if (!Types.ObjectId.isValid(value)) {
+                throw new Error('ID is invalid');
+            }
+        }),
+    ];
+
     return {
         login,
-        userCreate
+        userCreate,
+        updateUser
     };
 })();
 

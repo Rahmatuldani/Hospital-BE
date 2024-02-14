@@ -39,6 +39,9 @@ const PatientController = (() => {
             const data: PatientType = req.body;
 
             const patient = await Patient.findByIdAndUpdate(id, data, { new: true });
+            if (!patient) {
+                return Respons(res, {statusCode: 404, message: 'Patient not found'});
+            }
             return Respons(res, { statusCode: 200, message: 'Success update patient', data: { patient } });
         } catch (error) {
             return Respons(res, { statusCode: 500, message: 'Error Update patient', data: { error } });
